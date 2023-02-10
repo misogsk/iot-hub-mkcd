@@ -10,7 +10,7 @@
 const IOTHUB_API_URL = "mgtesthub.azure-devices.net/devices/"
 
 
-namespace esp8266 {
+namespace esp8266_mg {
     // Flag to indicate whether the Telegram message was sent successfully.
     let iotHubMessageSent = false
 
