@@ -22,8 +22,8 @@ namespace esp8266_mg {
     //% subcategory="Telegram"
     //% weight=30
     //% blockGap=8
-    //% blockId=esp8266_is_telegram_message_sent
-    //% block="Telegram message sent"
+    //% blockId=esp8266_is_iothub_message_sent
+    //% block="IOTHUB message sent"
     export function isIoTMessageSent(): boolean {
         return iotHubMessageSent
     }
@@ -38,8 +38,8 @@ namespace esp8266_mg {
     //% subcategory="Telegram"
     //% weight=29
     //% blockGap=8
-    //% blockId=esp8266_send_telegram_message
-    //% block="send message to Telegram:|API Key %apiKey|Chat ID %chatId|Message %message"
+    //% blockId=esp8266_send_iothub_message
+    //% block="send message to iothub:|API Key %apiKey|Chat ID %chatId|Message %message"
     export function sendIotHubMessage(apiKey: string, id: string, message: string) {
 
         // Reset the upload successful flag.
