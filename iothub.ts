@@ -1,23 +1,23 @@
 /*******************************************************************************
- * Functions for Telegram
+ * Functions for IoTHub
  *
  * Company: Cytron Technologies Sdn Bhd
  * Website: http://www.cytron.io
  * Email:   support@cytron.io
  *******************************************************************************/
 
-// Telegram API url.
+// IoTHub API url.
 const IOTHUB_API_URL = "mgtesthub.azure-devices.net/devices/"
 
 
 namespace esp8266_mg {
-    // Flag to indicate whether the Telegram message was sent successfully.
+    // Flag to indicate whether the IoTHub message was sent successfully.
     let iotHubMessageSent = false
 
 
 
     /**
-     * Return true if the Telegram message was sent successfully.
+     * Return true if the IoTHub message was sent successfully.
      */
     //% subcategory="IoTHub"
     //% weight=30
@@ -31,11 +31,11 @@ namespace esp8266_mg {
 
 
     /**
-     * Send Telegram message.
-     * @param apiKey Telegram API Key.
+     * Send IoTHub message.
+     * @param apiKey IoTHub API Key.
      * @param id The chat ID we want to send message to.
      */
-    //% subcategory="Telegram"
+    //% subcategory="IoTHub"
     //% weight=29
     //% blockGap=8
     //% blockId=esp8266_send_iothub_message

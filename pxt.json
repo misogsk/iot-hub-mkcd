@@ -10,7 +10,7 @@
     "files": [
         "README.md",
         "main.ts",
-        "iothubs.ts"
+        "iothub.ts"
     ],
     "testFiles": [
         "test.ts"
