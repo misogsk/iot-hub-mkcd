@@ -53,10 +53,9 @@ namespace esp8266_mg {
 
         // Construct the data to send.
         "https://fully-qualified-iothubname.azure-devices.net/devices/{id}/messages/events?api-version=2020-03-13"
-        let data = "POST https://fully-qualified-iothubname.azure-devices.net/devices/" + formatUrl(id) + "/messages/events?api-version=2020-03-13"
+        let data = "POST https://mgiothub.azurewebsites.net/api/PostFunction"
         data += " HTTP/1.1\r\n"
-        data += "Host: " + IOTHUB_API_URL + "\r\n"
-        data += "Message: "+message
+        data += "Test:jupi"
 
         // Send the data.
         sendCommand("AT+CIPSEND=" + (data.length + 2))
