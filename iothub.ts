@@ -44,7 +44,7 @@ namespace esp8266_mg {
 
         // Reset the upload successful flag.
         iotHubMessageSent = false
-
+        serial.writeString("sendingiot" + "\r\n")
         // Make sure the WiFi is connected.
         if (isWifiConnected() == false) return
 
