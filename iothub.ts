@@ -49,14 +49,15 @@ namespace esp8266_mg {
         //if (isWifiConnected() == false) return
 
         // Connect to Telegram. Return if failed.
-        if (sendCommand("AT+CIPSTART=\"SSL\",\"" + IOTHUB_API_URL + "\",443", "OK", 10000) == false) serial.writeString("failed")
+        if (sendCommand("AT+CIPSTART=\"SSL\",\"" + IOTHUB_API_URL + "\",443", "OK", 10000) == false) serial.writeString("\r\nfailed ssl\r\n")
 
         // Construct the data to send.
         //"https://fully-qualified-iothubname.azure-devices.net/devices/{id}/messages/events?api-version=2020-03-13"
         //let data = "POST https://mgiothub.azurewebsites.net/api/PostFunction"
-        let data= "POST /api/PostFunction"
-        data += " HTTP/1.1\r\n"
-        data += "Host: " + IOTHUB_API_URL + "\r\n"
+        let data= "POST /api/PostFunction "
+        data += "HTTP/1.1 "
+        data += "Host: " + IOTHUB_API_URL +" "
+        data+= "Content-Type: application/json "
         data += "{Test:jupi}"
 
         // Send the data.
