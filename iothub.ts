@@ -46,7 +46,7 @@ namespace esp8266_mg {
         iotHubMessageSent = false
         serial.writeString("sendingiot" + "\r\n"+isWifiConnected())
         // Make sure the WiFi is connected.
-        if (isWifiConnected() == false) return
+        //if (isWifiConnected() == false) return
 
         // Connect to Telegram. Return if failed.
         //if (sendCommand("AT+CIPSTART=\"SSL\",\"" + IOTHUB_API_URL + id+"/messages/events""\",443", "OK", 10000) == false) return
@@ -66,6 +66,10 @@ namespace esp8266_mg {
             // Close the connection and return.
             sendCommand("AT+CIPCLOSE", "OK", 1000)
             return
+        }
+        else 
+        {
+            serial.writeString("Failed\r\n")
         }
 
         // Validate the response from Telegram.
