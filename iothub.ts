@@ -74,6 +74,7 @@ namespace esp8266_mg {
 
         // Validate the response from Telegram.
         let response = getResponse("\"ok\":true", 1000)
+        serial.writeString(response)
         if (response == "") {
             // Close the connection and return.
             sendCommand("AT+CIPCLOSE", "OK", 1000)
