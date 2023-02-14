@@ -7,7 +7,7 @@
  *******************************************************************************/
 
 // IoTHub API url.
-const IOTHUB_API_URL = "mgtesthub.azure-devices.net/devices/"
+const IOTHUB_API_URL = "mgiothub.azurewebsites.net"
 
 
 namespace esp8266_mg {
@@ -49,13 +49,15 @@ namespace esp8266_mg {
         //if (isWifiConnected() == false) return
 
         // Connect to Telegram. Return if failed.
-        //if (sendCommand("AT+CIPSTART=\"SSL\",\"" + IOTHUB_API_URL + id+"/messages/events""\",443", "OK", 10000) == false) return
+        if (sendCommand("AT+CIPSTART=\"SSL\",\"" + IOTHUB_API_URL + "\",443", "OK", 10000) == false) return
 
         // Construct the data to send.
-        "https://fully-qualified-iothubname.azure-devices.net/devices/{id}/messages/events?api-version=2020-03-13"
-        let data = "POST https://mgiothub.azurewebsites.net/api/PostFunction"
+        //"https://fully-qualified-iothubname.azure-devices.net/devices/{id}/messages/events?api-version=2020-03-13"
+        //let data = "POST https://mgiothub.azurewebsites.net/api/PostFunction"
+        let data= "POST /api/PostFunction"
         data += " HTTP/1.1\r\n"
-        data += "Test:jupi"
+        data += "Host: " + IOTHUB_API_URL + "\r\n"
+        data += "{Test:jupi}"
 
         // Send the data.
         sendCommand("AT+CIPSEND=" + (data.length + 2))
