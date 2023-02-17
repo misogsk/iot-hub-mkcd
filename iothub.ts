@@ -52,7 +52,7 @@ namespace esp8266_mg {
         // Connect to Telegram. Return if failed.
         //if (sendCommand("AT+CIPSTART=\"SSL\",\"" + IOTHUB_API_URL + "\",443", "OK", 10000) == false) serial.writeString("\r\nfailed ssl\r\n")
 
-        if (sendCommand("AT+CIPSTART=\"TCP\",\"" + IOTHUB_API_URL + "\",80", "OK", 10000) == false) return
+        sendCommand("AT+CIPSTART=\"TCP\",\"" + IOTHUB_API_URL + "\",80", "OK", 10000)
 
         // Construct the data to send.
         let data = "GET /GetFunction?name=esp"
