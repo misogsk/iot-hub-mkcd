@@ -50,16 +50,18 @@ namespace esp8266_mg {
         //if (isWifiConnected() == false) return
 
         // Connect to Telegram. Return if failed.
-        //if (sendCommand("AT+CIPSTART=\"SSL\",\"" + IOTHUB_API_URL + "\",443", "OK", 10000) == false) serial.writeString("\r\nfailed ssl\r\n")
+        //if (sendAT("AT+CIPSTART=\"SSL\",\"" + IOTHUB_API_URL + "\",443", "OK", 10000) == false) serial.writeString("\r\nfailed ssl\r\n")
 
         sendCommand("AT+CIPSTART=\"TCP\",\"" + IOTHUB_API_URL + "\",80", "OK", 10000)
-
+        sendAT("AT+CIPSTART=\"TCP\",\"" + IOTHUB_API_URL + "\",80", 0) 
+        
         // Construct the data to send.
         let data = "GET /GetFunction?name=esp"
 
         // Send the data.
         sendCommand("AT+CIPSEND=" + (data.length + 2))
-        sendCommand(data)
+        sendAT("AT+CIPSEND=" + (data.length + 2))
+        //sendCommand(data)
         
         // Return if "SEND OK" is not received.
         if (getResponse("SEND OK", 1000) == "") return
@@ -71,6 +73,10 @@ namespace esp8266_mg {
         // Return if "SEND OK" is not received.
         iotHubMessageSent = true
         return
+    }
+     function sendAT(command: string, wait: number = 100) {
+        serial.writeString(command + "\u000D\u000A")
+        basic.pause(wait)
     }
 
 }
