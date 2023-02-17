@@ -66,7 +66,7 @@ namespace esp8266_mg {
         
 
         // Return if "SEND OK" is not received.
-        if (getResponse("OK", 1000) == "") {
+        if (getResponse("OK", 1000)) {
             iotHubMessageSent = true
         }
         return
