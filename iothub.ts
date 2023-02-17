@@ -44,7 +44,8 @@ namespace esp8266_mg {
 
         // Reset the upload successful flag.
         iotHubMessageSent = false
-        serial.writeString("sendingiot" + "\r\n"+isWifiConnected())
+        serial.writeString("sendingiot" + "\r\n" + isWifiConnected())
+        serial.writeString("httpclient")
         // Make sure the WiFi is connected.
         //if (isWifiConnected() == false) return
 
@@ -61,8 +62,8 @@ namespace esp8266_mg {
         data += "{Test:jupi}"
 
         // Send the data.
-        sendCommand("AT+HTTPCLIENT=3" + (data.length + 2))
-        sendCommand(data)
+        sendCommand("AT+HTTPCLIENT=3,1,https://mgiothub.azurewebsites.net/api/PostFunction,mgiothub.azurewebsites.net,/api/PostFunction,2" +"{Test:jupi}")
+        
 
         // Return if "SEND OK" is not received.
         if (getResponse("SEND OK", 1000) == "") {
