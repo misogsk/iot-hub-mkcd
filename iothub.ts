@@ -66,30 +66,9 @@ namespace esp8266_mg {
         
 
         // Return if "SEND OK" is not received.
-        if (getResponse("SEND OK", 1000) == "") {
-            // Close the connection and return.
-            sendCommand("AT+CIPCLOSE", "OK", 1000)
-            return
+        if (getResponse("OK", 1000) == "") {
+            iotHubMessageSent = true
         }
-        else 
-        {
-            serial.writeString("Failed\r\n")
-        }
-
-        // Validate the response from Telegram.
-        let response = getResponse("\"ok\":true", 1000)
-        serial.writeString(response)
-        if (response == "") {
-            // Close the connection and return.
-            sendCommand("AT+CIPCLOSE", "OK", 1000)
-            return
-        }
-
-        // Close the connection.
-        sendCommand("AT+CIPCLOSE", "OK", 1000)
-
-        // Set the upload successful flag and return.
-        iotHubMessageSent = true
         return
     }
 
