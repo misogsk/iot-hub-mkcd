@@ -22,9 +22,9 @@ namespace esp8266_mg {
     //% subcategory="IoTHub"
     //% weight=30
     //% blockGap=8
-    //% blockId=esp8266_is_iothub_message_sent
-    //% block="iotHub message sent"
-    export function isIoTMessageSent1(): boolean {
+    //% blockId=esp8266_is_iothub_message_sent1
+    //% block="iotHub message sent1"
+    export function isIoTMessageSent(): boolean {
         return iotHubMessageSent
     }
 
