@@ -52,23 +52,24 @@ namespace esp8266_mg {
         // Connect to Telegram. Return if failed.
         //if (sendCommand("AT+CIPSTART=\"SSL\",\"" + IOTHUB_API_URL + "\",443", "OK", 10000) == false) serial.writeString("\r\nfailed ssl\r\n")
 
+        if (sendCommand("AT+CIPSTART=\"TCP\",\"" + IOTHUB_API_URL + "\",80", "OK", 10000) == false) return
+
         // Construct the data to send.
-        //"https://fully-qualified-iothubname.azure-devices.net/devices/{id}/messages/events?api-version=2020-03-13"
-        //let data = "POST https://mgiothub.azurewebsites.net/api/PostFunction"
-        let data= "POST /api/PostFunction "
-        data += "HTTP/1.1 "
-        data += "Host: " + IOTHUB_API_URL +" "
-        data+= "Content-Type: application/json "
-        data += "{Test:jupi}"
+        let data = "GET /GetFunction?name=esp"
 
         // Send the data.
-        sendCommand("AT+HTTPCLIENT=3,1,https://mgiothub.azurewebsites.net/api/PostFunction,mgiothub.azurewebsites.net,/api/PostFunction,2" +"{Test:jupi}")
+        sendCommand("AT+CIPSEND=" + (data.length + 2))
+        sendCommand(data)
+        
+        // Return if "SEND OK" is not received.
+        if (getResponse("SEND OK", 1000) == "") return
+
+        // Send the data.
+       // sendCommand("AT+HTTPCLIENT=3,1,https://mgiothub.azurewebsites.net/api/PostFunction,mgiothub.azurewebsites.net,/api/PostFunction,2" +"{Test:jupi}")
         
 
         // Return if "SEND OK" is not received.
-        if (getResponse("OK", 1000)) {
-            iotHubMessageSent = true
-        }
+        iotHubMessageSent = true
         return
     }
 
