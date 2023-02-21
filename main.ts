@@ -421,7 +421,7 @@ namespace acnESP8266_IoT {
                     iotmessage_sent = true
                     recvString = ""
                     control.raiseEvent(EspEventSource, EspEventValue.IotHubMessage)
-                } else if (recvString.includes("ERROR")) {
+                } else {
                     iotmessage_sent = false
                     recvString = ""
                     control.raiseEvent(EspEventSource, EspEventValue.IotHubMessage)
