@@ -1,5 +1,5 @@
 //% color=#0fbc11 icon="\uf1eb"
-namespace ESP8266_IoT {
+namespace acnESP8266_IoT {
     enum Cmd {
         None,
         ConnectWifi,
