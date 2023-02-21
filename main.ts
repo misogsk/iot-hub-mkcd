@@ -377,7 +377,7 @@ namespace acnESP8266_IoT {
     //% subcategory=IoTHub weight=8
     //% blockId=postIoTHub block="post IoTHub message|name:%name"
     export function postIotHubMessage(name: string): void {
-        let sendST1 = "AT+HTTPCLIENT=3,1,\"https://" + IOTHUB_API_URL + "/PostFunction\",,,2,"
+        let sendST1 = "AT+HTTPCLIENT=3,1,\"https://" + IOTHUB_API_URL + "/api/PostFunction\",,,2,"
         let sendST2 = "\"{\\\"name\\\":\\\"" + name + "\\\"}\""
         let sendST = sendST1 + sendST2
         sendAT(sendST, 1000)
