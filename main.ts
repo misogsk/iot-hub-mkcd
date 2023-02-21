@@ -9,6 +9,7 @@ namespace acnESP8266_IoT {
         UploadKidsIot,
         DisconnectKidsIot,
         ConnectMqtt,
+        IotHubMessage
     }
 
     export enum KidsIotSwitchState {
@@ -36,6 +37,7 @@ namespace acnESP8266_IoT {
     const IOTHUB_API_URL = "mgiothub.azurewebsites.net"
 
     let wifi_connected: boolean = false
+    let iotmessage_sent:boolean=false
     let thingspeak_connected: boolean = false
     let kidsiot_connected: boolean = false
     let mqttBrokerConnected: boolean = false
@@ -65,7 +67,8 @@ namespace acnESP8266_IoT {
         UploadKidsIot: Cmd.UploadKidsIot,
         DisconnectKidsIot: Cmd.DisconnectKidsIot,
         ConnectMqtt: Cmd.ConnectMqtt,
-        PostIFTTT: 255
+        PostIFTTT: 255,
+        IotHubMessage: Cmd.IotHubMessage
     }
     const KidsIotEventSource = 3100
     const KidsIotEventValue = {
@@ -305,6 +308,9 @@ namespace acnESP8266_IoT {
     export function isMqttBrokerConnected() {
         return mqttBrokerConnected
     }
+    export function isIoTMessageSent() {
+        return iotmessage_sent
+    }
 
     /**
      * send message
@@ -359,17 +365,17 @@ namespace acnESP8266_IoT {
         //control.waitForEvent(EspEventSource, EspEventValue.PostIFTTT)
     }
 
-     /**
-     * post ifttt
-     */
+    /**
+    * post ifttt
+    */
     //% subcategory=IoTHub weight=8
     //% blockId=postIoTHub block="post IoTHub message|name:%name"
-    export function postIotHubMessage(name:string): void {
-        let sendST1 = "AT+HTTPCLIENT=3,1,\"http://"+IOTHUB_API_URL+ "/PostFunction\",,,2,"
+    export function postIotHubMessage(name: string): void {
+        let sendST1 = "AT+HTTPCLIENT=3,1,\"https://" + IOTHUB_API_URL + "/PostFunction\",,,2,"
         let sendST2 = "\"{\\\"name\\\":\\\"" + name + "\\\"}\""
         let sendST = sendST1 + sendST2
         sendAT(sendST, 1000)
-        //control.waitForEvent(EspEventSource, EspEventValue.PostIFTTT)
+        control.waitForEvent(EspEventSource, EspEventValue.IotHubMessage)
     }
 
     /**
@@ -403,6 +409,19 @@ namespace acnESP8266_IoT {
         }
 
         switch (currentCmd) {
+            case Cmd.IotHubMessage:
+
+                if (recvString.includes("OK")) {
+                    iotmessage_sent = true
+                    recvString = ""
+                    control.raiseEvent(EspEventSource, EspEventValue.IotHubMessage)
+                } else if (recvString.includes("ERROR")) {
+                    iotmessage_sent = false
+                    recvString = ""
+                    control.raiseEvent(EspEventSource, EspEventValue.IotHubMessage)
+                }
+
+                break
             case Cmd.ConnectWifi:
                 if (recvString.includes("AT+CWJAP")) {
                     recvString = recvString.slice(recvString.indexOf("AT+CWJAP"))
