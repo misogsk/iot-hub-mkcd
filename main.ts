@@ -382,7 +382,7 @@ namespace acnESP8266_IoT {
         let sendST2 = "\"{\\\"name\\\":\\\"" + name + "\\\"}\""
         let sendST = sendST1 + sendST2
         sendAT(sendST, 1000)
-        control.waitForEvent(EspEventSource, EspEventValue.IotHubMessage)
+        //control.waitForEvent(EspEventSource, EspEventValue.IotHubMessage)
     }
 
     /**
