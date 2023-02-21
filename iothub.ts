@@ -56,8 +56,7 @@ namespace esp8266_mg {
 
         // Reset the upload successful flag.
         iotHubMessageSent = false
-        iotConnected=false
-        let data = "GET /GetFunction?name=esp"
+               // Construct the data to send.
 
         sendAT("AT+CIPSTART=\"TCP\",\"" + IOTHUB_API_URL + "\",80", 0) // connect to website server
         iotConnected = waitResponse()
