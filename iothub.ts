@@ -13,7 +13,7 @@ const IOTHUB_API_URL = "mgiothub.azurewebsites.net"
 namespace esp8266_mg {
     // Flag to indicate whether the IoTHub message was sent successfully.
     let iotHubMessageSent = false
-    let iotConnected =false
+    let iotConnected = false
 
 
     /**
@@ -28,9 +28,9 @@ namespace esp8266_mg {
         return iotHubMessageSent
     }
 
-     /**
-     * Return true if the IoTHub message was sent successfully.
-     */
+    /**
+    * Return true if the IoTHub message was sent successfully.
+    */
     //% subcategory="IoTHub"
     //% weight=30
     //% blockGap=8
@@ -56,7 +56,7 @@ namespace esp8266_mg {
 
         // Reset the upload successful flag.
         iotHubMessageSent = false
-               // Construct the data to send.
+        // Construct the data to send.
 
         sendAT("AT+CIPSTART=\"TCP\",\"" + IOTHUB_API_URL + "\",80", 0) // connect to website server
         iotConnected = waitResponse()
