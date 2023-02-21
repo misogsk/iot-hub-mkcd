@@ -308,6 +308,12 @@ namespace acnESP8266_IoT {
     export function isMqttBrokerConnected() {
         return mqttBrokerConnected
     }
+
+    /**
+     * Check if IOT HUb Message sent
+     */
+    //% block="IOT HUB Message sent"
+    //% subcategory="IoTHub" weight=24
     export function isIoTMessageSent() {
         return iotmessage_sent
     }
