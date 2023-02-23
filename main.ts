@@ -208,8 +208,8 @@ namespace acnESP8266_IoT {
     /**
          * upload data. It would not upload anything if it failed to connect to Wifi or ThingSpeak.
          */
-    //% block="Upload data to ThingSpeak"
-    //% subcategory="ThingSpeak" weight=80
+    //% block="Upload data to Iot Hub API"
+    //% subcategory="iothub" weight=80
     export function uploadDataIotHub() {
         sendAT(`AT+CIPSEND=${TStoSendStr.length + 2}`, 300)
         sendAT(TStoSendStr, 300) // upload data
@@ -355,7 +355,7 @@ namespace acnESP8266_IoT {
      * Check if IOT HUb Message sent
      */
     //% block="IOT HUB Message sent"
-    //% subcategory="IoTHub" weight=24
+    //% subcategory="iothub" weight=24
     export function isIoTMessageSent() {
         return iotmessage_sent
     }
