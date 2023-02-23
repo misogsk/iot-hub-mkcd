@@ -34,10 +34,9 @@ namespace acnESP8266_IoT {
         //% block="2"
         Qos2
     }
-    const IOTHUB_API_URL = "mgiothub.azurewebsites.net"
 
     let wifi_connected: boolean = false
-    let iotmessage_sent:boolean=false
+    let iotmessage_sent: boolean = false
     let thingspeak_connected: boolean = false
     let kidsiot_connected: boolean = false
     let mqttBrokerConnected: boolean = false
@@ -54,6 +53,9 @@ namespace acnESP8266_IoT {
 
     const THINGSPEAK_HOST = "api.thingspeak.com"
     const THINGSPEAK_PORT = "80"
+    const IOTHUB_API_URL = "mgiothub.azurewebsites.net"
+    const IOTHUB_API_PORT = "80"
+
     const KIDSIOT_HOST = "139.159.161.57"
     const KIDSIOT_PORT = "5555"
 
@@ -176,6 +178,46 @@ namespace acnESP8266_IoT {
             + "&field8="
             + n8
     }
+
+    /**
+        * Connect to IotHubApi
+        */
+    //% block="connect IotHubAPI"
+    //% write_api_key.defl=your_write_api_key
+    //% subcategory="iothub" weight=90
+    export function connectIotHubApi() {
+        currentCmd = Cmd.IotHubMessage
+        // connect to server
+        sendAT(`AT+CIPSTART="TCP","${IOTHUB_API_URL}",${IOTHUB_API_PORT}`)
+        control.waitForEvent(EspEventSource, EspEventValue.IotHubMessage)
+        pause(100)
+    }
+
+    /**
+     * Connect to IoTHubAPI and set data.
+     */
+    //% block="get data from API"
+    //% write_api_key.defl=your_write_api_key
+    //% expandableArgumentMode="enabled"
+    //% subcategory="iothub" weight=85
+    export function setDataIotHub() {
+        TStoSendStr = "GET /weatherforecast"
+
+    }
+
+    /**
+         * upload data. It would not upload anything if it failed to connect to Wifi or ThingSpeak.
+         */
+    //% block="Upload data to ThingSpeak"
+    //% subcategory="ThingSpeak" weight=80
+    export function uploadDataIotHub() {
+        sendAT(`AT+CIPSEND=${TStoSendStr.length + 2}`, 300)
+        sendAT(TStoSendStr, 300) // upload data
+    }
+
+
+
+
 
     /**
      * upload data. It would not upload anything if it failed to connect to Wifi or ThingSpeak.
@@ -374,10 +416,10 @@ namespace acnESP8266_IoT {
     /**
     * post ifttt
     */
-    //% subcategory=IoTHub weight=8
+    //% subcategory="iothub" weight=8
     //% blockId=postIoTHub block="post IoTHub message3|name:%name"
     export function postIotHubMessage(name: string): void {
-        currentCmd=Cmd.IotHubMessage
+        currentCmd = Cmd.IotHubMessage
         let sendST1 = "AT+HTTPCLIENT=3,1,\"http://" + IOTHUB_API_URL + "/api/PostFunction\",,,1,"
         let sendST2 = "\"{\\\"name\\\":\\\"" + name + "\\\"}\""
         let sendST = sendST1 + sendST2
@@ -418,16 +460,18 @@ namespace acnESP8266_IoT {
         switch (currentCmd) {
             case Cmd.IotHubMessage:
 
-                if (recvString.includes("OK")) {
-                    iotmessage_sent = true
-                    recvString = ""
-                    control.raiseEvent(EspEventSource, EspEventValue.IotHubMessage)
-                } else {
-                    iotmessage_sent = false
-                    recvString = ""
-                    control.raiseEvent(EspEventSource, EspEventValue.IotHubMessage)
+                if (recvString.includes(THINGSPEAK_HOST)) {
+                    recvString = recvString.slice(recvString.indexOf(THINGSPEAK_HOST))
+                    if (recvString.includes("CONNECT")) {
+                        thingspeak_connected = true
+                        recvString = ""
+                        control.raiseEvent(EspEventSource, EspEventValue.ConnectThingSpeak)
+                    } else if (recvString.includes("ERROR")) {
+                        thingspeak_connected = false
+                        recvString = ""
+                        control.raiseEvent(EspEventSource, EspEventValue.ConnectThingSpeak)
+                    }
                 }
-
                 break
             case Cmd.ConnectWifi:
                 if (recvString.includes("AT+CWJAP")) {
