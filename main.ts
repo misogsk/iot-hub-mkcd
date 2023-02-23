@@ -460,17 +460,14 @@ namespace acnESP8266_IoT {
         switch (currentCmd) {
             case Cmd.IotHubMessage:
 
-                if (recvString.includes(THINGSPEAK_HOST)) {
-                    recvString = recvString.slice(recvString.indexOf(THINGSPEAK_HOST))
-                    if (recvString.includes("CONNECT")) {
-                        thingspeak_connected = true
-                        recvString = ""
-                        control.raiseEvent(EspEventSource, EspEventValue.ConnectThingSpeak)
-                    } else if (recvString.includes("ERROR")) {
-                        thingspeak_connected = false
-                        recvString = ""
-                        control.raiseEvent(EspEventSource, EspEventValue.ConnectThingSpeak)
-                    }
+                if (recvString.includes("CONNECT")) {
+                    thingspeak_connected = true
+                    recvString = ""
+                    control.raiseEvent(EspEventSource, EspEventValue.IotHubMessage)
+                } else if (recvString.includes("ERROR")) {
+                    thingspeak_connected = false
+                    recvString = ""
+                    control.raiseEvent(EspEventSource, EspEventValue.IotHubMessage)
                 }
                 break
             case Cmd.ConnectWifi:
