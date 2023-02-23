@@ -459,13 +459,12 @@ namespace acnESP8266_IoT {
 
         switch (currentCmd) {
             case Cmd.IotHubMessage:
-
                 if (recvString.includes("CONNECT")) {
-                    thingspeak_connected = true
+                    isIoTMessageSent = true
                     recvString = ""
                     control.raiseEvent(EspEventSource, EspEventValue.IotHubMessage)
                 } else if (recvString.includes("ERROR")) {
-                    thingspeak_connected = false
+                    isIoTMessageSent = false
                     recvString = ""
                     control.raiseEvent(EspEventSource, EspEventValue.IotHubMessage)
                 }
