@@ -53,7 +53,7 @@ namespace acnESP8266_IoT {
 
     const THINGSPEAK_HOST = "api.thingspeak.com"
     const THINGSPEAK_PORT = "80"
-    const IOTHUB_API_URL = "mgiothub.azurewebsites.net"
+    const IOTHUB_API_URL = "mgiothubapi.azurewebsites.net"
     const IOTHUB_API_PORT = "80"
 
     const KIDSIOT_HOST = "139.159.161.57"
